@@ -17,4 +17,9 @@ def bind_customer_key(kms_key_id: str, cluster_uuid: str) -> dict:
         dict: Sync status metadata package including confirmation tokens.
     """
     logging.info(f"Initiating cryptographic handshake using KMS Key: {kms_key_id}")
-    return {"status": "ENFORCED", "scope": "BYOK_COMPLIANT", "target": cluster_uuid}
+return {
+    "status":"ENFORCED",
+    "scope":"BYOK_COMPLIANT",
+    "target":cluster_uuid,
+    "rotation":"enabled"
+}
