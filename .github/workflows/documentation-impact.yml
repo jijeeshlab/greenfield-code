@@ -14,20 +14,18 @@ jobs:
 
     steps:
 
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Get Changed Files
+      - name: Show PR Details
         run: |
 
-          git diff \
-          origin/${{ github.base_ref }} \
-          HEAD \
-          --name-only \
-          > changed-files.txt
+          echo "PR:"
+          echo "${{ github.event.pull_request.title }}"
 
-      - name: Show Changed Files
-        run: |
+          echo ""
+          echo "Base Branch:"
+          echo "${{ github.base_ref }}"
 
-          echo "Changed files:"
-          cat changed-files.txt
+          echo ""
+          echo "Head Branch:"
+          echo "${{ github.head_ref }}"
