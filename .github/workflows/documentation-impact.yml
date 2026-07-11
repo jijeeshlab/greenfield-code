@@ -5,27 +5,17 @@ on:
     types:
       - opened
       - synchronize
+      - reopened
 
 jobs:
 
-  detect-impact:
+  documentation-impact:
 
-    runs-on: ubuntu-latest
+    uses: jijeeshlab/Actions/.github/workflows/documentation-impact.yml@main
 
-    steps:
+    with:
+      documentation_repo: jijeeshlab/doc-as-code
+      documentation_dispatch_event: documentation_update_requested
 
-      - uses: actions/checkout@v4
-
-      - name: Show PR Details
-        run: |
-
-          echo "PR:"
-          echo "${{ github.event.pull_request.title }}"
-
-          echo ""
-          echo "Base Branch:"
-          echo "${{ github.base_ref }}"
-
-          echo ""
-          echo "Head Branch:"
-          echo "${{ github.head_ref }}"
+    secrets:
+      DOC_AUTOMATION_PAT: ${{ secrets.DOC_AUTOMATION_PAT }}
