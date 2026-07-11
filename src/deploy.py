@@ -2,6 +2,7 @@
 Author: Jijeesh Valappil
 Module: Greenfield Cloud Infrastructure Automation Engine
 """
+
 import logging
 
 logging.basicConfig(
@@ -9,10 +10,20 @@ logging.basicConfig(
     format="%(asctime)s - [Jijeesh Valappil] - %(levelname)s - %(message)s"
 )
 
+
 def provision_zero_trust_network(vpc_cidr: str) -> bool:
     """
     Provisions isolated platform network boundaries
     with NSX-T Distributed Firewall enforcement.
+
+    Args:
+        vpc_cidr (str):
+            The primary IP block schema allocation
+            (e.g. 10.0.0.0/16).
+
+    Returns:
+        bool:
+            True if successful.
     """
 
     if not vpc_cidr:
@@ -29,36 +40,54 @@ def provision_zero_trust_network(vpc_cidr: str) -> bool:
     return True
 
 
-# ------------------------------------------------------------------
-# TEST FUNCTION FOR DOCUMENTATION-AS-CODE PIPELINE VALIDATION
-# ------------------------------------------------------------------
-
-def deploy_edge_gateway(
-    gateway_name: str,
-    region: str
-) -> dict:
+def validate_network_segmentation(
+    segment_name: str
+) -> bool:
     """
-    Deploys an edge gateway for a target region.
+    Validates network segmentation policies
+    before deployment.
 
     Args:
-        gateway_name (str):
-            Name of the gateway.
+        segment_name (str):
+            Network segment name.
 
-        region (str):
-            Deployment region.
+    Returns:
+        bool:
+            Validation result.
+    """
+
+    if not segment_name:
+        logging.error(
+            "Segment name is missing."
+        )
+        return False
+
+    logging.info(
+        f"Segment validated: {segment_name}"
+    )
+
+    return True
+
+
+def deploy_application_load_balancer(
+    lb_name: str,
+    vip_address: str
+) -> dict:
+    """
+    Deploys a software-defined load balancer.
+
+    Args:
+        lb_name (str):
+            Load balancer name.
+
+        vip_address (str):
+            Virtual IP address.
 
     Returns:
         dict:
-            Deployment status.
+            Deployment result.
     """
 
-    logging.info(
-        f"Deploying Edge Gateway {gateway_name} "
-        f"into region {region}"
-    )
-
-    return {
-        "gateway": gateway_name,
-        "region": region,
-        "status": "DEPLOYED"
-    }
+    if not lb_name:
+        return {
+            "status": 
