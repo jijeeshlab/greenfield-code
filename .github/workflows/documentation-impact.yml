@@ -1,0 +1,33 @@
+name: Documentation Impact Detection
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+
+  detect-impact:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Changed Files
+        run: |
+
+          git diff \
+          origin/${{ github.base_ref }} \
+          HEAD \
+          --name-only \
+          > changed-files.txt
+
+      - name: Show Changed Files
+        run: |
+
+          echo "Changed files:"
+          cat changed-files.txt
