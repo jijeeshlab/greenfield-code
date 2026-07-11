@@ -1,14 +1,21 @@
 paths:
 
   src/deploy.py:
+
     service: greenfield-network
-    docs:
-      - HLD
-      - LLD
+
+    hld:
+      docs/02-Architecture-and-Designs/01-High-Level-Designs/greenfield-network.md
+
+    lld:
+      docs/02-Architecture-and-Designs/02-Low-Level-Designs/greenfield-network.md
 
   src/security_vault.py:
+
     service: security-compliance
-    docs:
-      - HLD
-      - LLD
-      - Security
+
+    hld:
+      docs/07-Security-and-Compliance/01-Security-Posture/security-compliance-hld.md
+
+    lld:
+      docs/07-Security-and-Compliance/03-Access-Control/security-compliance-lld.md
