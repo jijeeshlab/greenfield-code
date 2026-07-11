@@ -30,36 +30,36 @@ def provision_zero_trust_network(vpc_cidr: str) -> bool:
     return True
 
 
-def validate_network_segmentation(
-    segment_name: str
-) -> bool:
-    """
-    Validates network segmentation policies
-    before deployment.
-    """
+# ------------------------------------------------------------------
+# TEST FUNCTION FOR DOCUMENTATION-AS-CODE PIPELINE VALIDATION
+# ------------------------------------------------------------------
 
-    if not segment_name:
-        logging.error(
-            "Segment name is missing."
-        )
-        return False
-
-    logging.info(
-        f"Segment validated: {segment_name}"
-    )
-
-    return True
-
-
-def generate_firewall_policy(
-    policy_name: str
+def deploy_edge_gateway(
+    gateway_name: str,
+    region: str
 ) -> dict:
     """
-    Generates a distributed firewall policy.
+    Deploys an edge gateway for a target region.
+
+    Args:
+        gateway_name (str):
+            Name of the gateway.
+
+        region (str):
+            Deployment region.
+
+    Returns:
+        dict:
+            Deployment status.
     """
 
+    logging.info(
+        f"Deploying Edge Gateway {gateway_name} "
+        f"into region {region}"
+    )
+
     return {
-        "policy_name": policy_name,
-        "type": "ZERO_TRUST",
-        "status": "CREATED"
+        "gateway": gateway_name,
+        "region": region,
+        "status": "DEPLOYED"
     }
