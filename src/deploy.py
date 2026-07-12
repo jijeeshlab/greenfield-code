@@ -15,15 +15,6 @@ def provision_zero_trust_network(vpc_cidr: str) -> bool:
     """
     Provisions isolated platform network boundaries
     with NSX-T Distributed Firewall enforcement.
-
-    Args:
-        vpc_cidr (str):
-            The primary IP block schema allocation
-            (e.g. 10.0.0.0/16).
-
-    Returns:
-        bool:
-            True if successful.
     """
 
     if not vpc_cidr:
@@ -46,14 +37,6 @@ def validate_network_segmentation(
     """
     Validates network segmentation policies
     before deployment.
-
-    Args:
-        segment_name (str):
-            Network segment name.
-
-    Returns:
-        bool:
-            Validation result.
     """
 
     if not segment_name:
@@ -75,19 +58,108 @@ def deploy_application_load_balancer(
 ) -> dict:
     """
     Deploys a software-defined load balancer.
+    """
+
+    if not lb_name:
+        return {
+            "status": "FAILED",
+            "reason": "Load balancer name missing"
+        }
+
+    logging.info(
+        f"Deploying load balancer {lb_name} "
+        f"with VIP {vip_address}"
+    )
+
+    return {
+        "load_balancer": lb_name,
+        "vip": vip_address,
+        "status": "DEPLOYED"
+    }
+
+
+def deploy_private_dns_zone(
+    zone_name: str
+) -> dict:
+    """
+    Deploys a private DNS zone
+    for internal cloud services.
+    """
+
+    if not zone_name:
+        return {
+            "status": "FAILED",
+            "reason": "Zone name missing"
+        }
+
+    logging.info(
+        f"Deploying private DNS zone: {zone_name}"
+    )
+
+    return {
+        "dns_zone": zone_name,
+        "status": "DEPLOYED"
+    }
+
+
+# NEW TEST FUNCTION
+def deploy_vpn_gateway(
+    gateway_name: str,
+    public_ip: str
+) -> dict:
+    """
+    Deploys a VPN gateway for hybrid cloud connectivity.
 
     Args:
-        lb_name (str):
-            Load balancer name.
+        gateway_name (str):
+            VPN Gateway name.
 
-        vip_address (str):
-            Virtual IP address.
+        public_ip (str):
+            Public IP assigned to gateway.
 
     Returns:
         dict:
             Deployment result.
     """
 
-    if not lb_name:
+    if not gateway_name:
         return {
-            "status": 
+            "status": "FAILED",
+            "reason": "Missing gateway name"
+        }
+
+    logging.info(
+        f"Deploying VPN Gateway {gateway_name} "
+        f"using public IP {public_ip}"
+    )
+
+    return {
+        "gateway_name": gateway_name,
+        "public_ip": public_ip,
+        "status": "DEPLOYED"
+    }
+
+
+if __name__ == "__main__":
+
+    provision_zero_trust_network(
+        "10.100.0.0/16"
+    )
+
+    validate_network_segmentation(
+        "production-segment"
+    )
+
+    deploy_application_load_balancer(
+        "vcs-lb01",
+        "10.100.1.10"
+    )
+
+    deploy_private_dns_zone(
+        "vcs.internal.local"
+    )
+
+    deploy_vpn_gateway(
+        "vpn-gateway-01",
+        "20.100.10.10"
+    )
