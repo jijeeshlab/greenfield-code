@@ -2,8 +2,7 @@
 Author: Jijeesh Valappil
 Module: Greenfield Cloud Infrastructure Automation Engine
 
-This module is intentionally designed to validate
-the Documentation-as-Code pipeline.
+Agent Validation Test
 """
 
 import logging
@@ -92,8 +91,21 @@ def deploy_storage_gateway(
 
 
 ###############################################################################
-# NEW TEST FUNCTIONS
+# AGENT TEST FUNCTIONS
 ###############################################################################
+
+def deploy_event_stream_platform(
+    cluster_name: str
+) -> dict:
+    """
+    Deploys Kafka event streaming platform.
+    """
+
+    return {
+        "cluster": cluster_name,
+        "status": "DEPLOYED"
+    }
+
 
 def deploy_disaster_recovery_gateway(
     gateway_name: str,
@@ -226,6 +238,10 @@ if __name__ == "__main__":
     deploy_storage_gateway(
         "storage-gateway-01",
         "tier1"
+    )
+
+    deploy_event_stream_platform(
+        "kafka-prod-cluster"
     )
 
     deploy_disaster_recovery_gateway(
