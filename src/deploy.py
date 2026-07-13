@@ -1,9 +1,8 @@
 """
-Author: Jijeesh Valappil
-Module: Greenfield Cloud Infrastructure Automation Engine
+Agent Validation Test
 
-This module is intentionally designed to validate
-the Documentation-as-Code pipeline.
+This module is intentionally used to validate
+the Documentation-as-Code platform.
 """
 
 import logging
@@ -42,7 +41,7 @@ def deploy_application_load_balancer(
     vip_address: str
 ) -> dict:
     """
-    Deploys application load balancer services.
+    Deploys application load balancer.
     """
 
     return {
@@ -68,7 +67,7 @@ def deploy_vpn_gateway(
     public_ip: str
 ) -> dict:
     """
-    Deploys VPN gateway connectivity.
+    Deploys VPN gateway service.
     """
 
     return {
@@ -82,7 +81,7 @@ def deploy_storage_gateway(
     storage_pool: str
 ) -> dict:
     """
-    Deploys storage gateway integration.
+    Deploys storage gateway service.
     """
 
     return {
@@ -92,8 +91,21 @@ def deploy_storage_gateway(
 
 
 ###############################################################################
-# NEW TEST FUNCTIONS
+# AGENT VALIDATION FUNCTIONS
 ###############################################################################
+
+def deploy_event_stream_platform(
+    cluster_name: str
+) -> dict:
+    """
+    Deploys Kafka event streaming platform.
+    """
+
+    return {
+        "cluster": cluster_name,
+        "status": "DEPLOYED"
+    }
+
 
 def deploy_disaster_recovery_gateway(
     gateway_name: str,
@@ -114,7 +126,7 @@ def deploy_backup_replication_service(
     retention_days: int
 ) -> dict:
     """
-    Deploys backup replication services.
+    Deploys backup and replication services.
     """
 
     return {
@@ -142,7 +154,7 @@ def deploy_kubernetes_cluster(
     worker_count: int
 ) -> dict:
     """
-    Deploys Kubernetes cluster services.
+    Deploys Kubernetes cluster.
     """
 
     return {
@@ -155,7 +167,7 @@ def deploy_ingress_controller(
     controller_name: str
 ) -> dict:
     """
-    Deploys ingress controller services.
+    Deploys ingress controller.
     """
 
     return {
@@ -191,11 +203,30 @@ def deploy_secrets_management(
     vault_name: str
 ) -> dict:
     """
-    Deploys secrets management services.
+    Deploys secrets management service.
     """
 
     return {
         "vault_name": vault_name
+    }
+
+
+###############################################################################
+# NEW TEST FUNCTION
+###############################################################################
+
+def deploy_ai_gateway(
+    gateway_name: str,
+    model_provider: str
+) -> dict:
+    """
+    Deploys AI gateway service for model routing.
+    """
+
+    return {
+        "gateway_name": gateway_name,
+        "model_provider": model_provider,
+        "status": "DEPLOYED"
     }
 
 
@@ -206,7 +237,7 @@ if __name__ == "__main__":
     )
 
     validate_network_segmentation(
-        "production-network"
+        "production-segment"
     )
 
     deploy_application_load_balancer(
@@ -228,9 +259,13 @@ if __name__ == "__main__":
         "tier1"
     )
 
+    deploy_event_stream_platform(
+        "kafka-prod"
+    )
+
     deploy_disaster_recovery_gateway(
         "dr-gateway-01",
-        "mumbai"
+        "Mumbai"
     )
 
     deploy_backup_replication_service(
@@ -262,4 +297,9 @@ if __name__ == "__main__":
 
     deploy_secrets_management(
         "vcs-vault"
+    )
+
+    deploy_ai_gateway(
+        "ai-gateway-01",
+        "Azure OpenAI"
     )
